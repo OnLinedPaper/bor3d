@@ -44,11 +44,8 @@ void viewport::draw_border() {
 }
 
 void viewport::draw_blinky() {
-  static double tick = t_frame::get().get_t();
-
-  int t = (int) tick;
   char c = 'x';
-  switch(t % 4) {
+  switch(((int) (t_frame::get().get_t())) % 4) {
     case 0:
       c = 'o'; break;
     case 1:
