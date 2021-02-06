@@ -65,4 +65,5 @@ void viewport::draw_blinky() {
 
 void viewport::refresh() {
   wrefresh(win);
+
 }
