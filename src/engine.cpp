@@ -13,11 +13,15 @@ void engine::run() {
   //run a constant loop here:
   //check for input, then draw
 
+  int ch;
 
   bool quit = false;
   while(!quit) {
+
+    //ch = getch();
    
     if(t_frame::get().incr_f()) {
+      viewport::get().clear();
       viewport::get().draw_blinky();
       viewport::get().draw_border();
 

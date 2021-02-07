@@ -2,6 +2,7 @@
 #define VIEWPORT_H_
 
 #include <ncurses.h>
+#include <string>
 
 //this singleton class will handle drawing to the screen
 
@@ -15,6 +16,10 @@ public:
     return instance;
   }
 
+  void post_message(std::string &, int);
+
+  WINDOW *get_win() { return win; }
+  void clear() { werase(win); }
   void draw_border();
   void draw_blinky();
   void refresh();

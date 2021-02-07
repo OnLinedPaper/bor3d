@@ -14,12 +14,20 @@ viewport::viewport() {
   //TODO: handle resizing gracefully
   win = newwin(LINES, COLS, 0, 0);
   keypad(win, TRUE);
-  nodelay(win, TRUE);
+  timeout(1);
+  curs_set(0);
 }
 
 viewport::~viewport() {
   delwin(win);
   endwin();
+}
+
+//post a message in the little message box, which persists for
+//however many ticks the program wants it to
+//remember: wrap after 80 characters!
+void post_message(std::string &text, int tick_lifespan) {
+
 }
 
 void viewport::draw_border() {
@@ -31,8 +39,8 @@ void viewport::draw_border() {
   }
 
   for(int i=0; i<LINES; i++) {
-    mvwaddch(win, i, 0,      '|' | A_REVERSE);
-    mvwaddch(win, i, COLS-1, '|' | A_REVERSE);
+    mvwaddch(win, i, 0,      'I' | A_REVERSE);
+    mvwaddch(win, i, COLS-1, 'I' | A_REVERSE);
   }
 
   //overwrite the corners
@@ -41,19 +49,31 @@ void viewport::draw_border() {
   mvwaddch(win, LINES-1, 0,      '#' | A_REVERSE);
   mvwaddch(win, LINES-1, COLS-1, '#' | A_REVERSE);
 
+  //-   -   -   -   -   -   -   -   -   -   -   -   -   -      
+
+  //add a little message box at the bottom right
+  //box is at most 80 chars wide and 4 chars tall
+  int box_x_size = (COLS > 82 ? COLS-82 : 0);
+  int box_y_size = (LINES > 6 ? LINES-6 : 0);
+  for(int i=box_x_size; i<COLS-1; i++) {
+    mvwaddch(win, LINES-6, i, '-' | A_REVERSE);
+  }
+  for(int i=box_y_size; i<LINES-1; i++) {
+    mvwaddch(win, i, COLS-82, '|' | A_REVERSE);
+  }
 }
 
 void viewport::draw_blinky() {
   char c = 'x';
   switch(((int) (t_frame::get().get_t())) % 4) {
     case 0:
-      c = 'o'; break;
+      c = 'q'; break;
     case 1:
-      c = 'O'; break;
+      c = 'd'; break;
     case 2:
-      c = '0'; break;
+      c = 'b'; break;
     case 3:
-      c = '@'; break;
+      c = 'p'; break;
     default:
       c = 'x'; break;
   }
