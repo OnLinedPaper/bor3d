@@ -16,12 +16,12 @@ public:
     return instance;
   }
 
-  void post_message(std::string &, int);
+  void draw_messages() const;
 
   WINDOW *get_win() { return win; }
   void clear() { werase(win); }
-  void draw_border();
-  void draw_blinky();
+  void draw_border() const;
+  void draw_blinky() const;
   void refresh();
 
 private:
@@ -29,7 +29,11 @@ private:
   viewport(const viewport &) = delete;
   viewport &operator=(const viewport &) = delete;
 
+  void draw_msg_box() const;
+
   WINDOW *win;
+  uint8_t BOX_WIDTH;
+  uint8_t BOX_HEIGHT;
 };
 
 #endif

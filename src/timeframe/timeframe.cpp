@@ -6,7 +6,7 @@
 //if it does, go check t_factor() to see if it's still needed
 const int t_frame::tickrate = 20;
 
-void t_frame::incr_t() {
+bool t_frame::incr_t() {
   //increment the frame, and recalculate the delay factor
   static double e = get_ms();
   elapsed_ms = get_ms() - e;
@@ -15,7 +15,10 @@ void t_frame::incr_t() {
     e = get_ms();
 
     tick++;
+    return true;
   }
+
+  return false;
 }
 
 bool t_frame::incr_f() {

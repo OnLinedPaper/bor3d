@@ -21,7 +21,7 @@ public:
   void set_t_delay(float d) { tick_delay = d; }
 
   float get_t() const { return tick; }
-  void incr_t();
+  bool incr_t();
 
   float get_f_delay() const { return frame_delay; }
   void set_f_delay(float d) { frame_delay = d; }

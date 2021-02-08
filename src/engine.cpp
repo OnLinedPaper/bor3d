@@ -1,34 +1,38 @@
 #include "engine.h"
 #include "viewport/viewport.h"
 #include "timeframe/timeframe.h"
+#include "message/message.h"
+#include "message/message_handler.h"
 
 #include <ncurses.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 #include <vector>
-#include <iostream>
 
 void engine::run() {
 
   //run a constant loop here:
   //check for input, then draw
 
-  int ch;
-
+  //int ch;
   bool quit = false;
+
   while(!quit) {
 
     //ch = getch();
-   
+  
     if(t_frame::get().incr_f()) {
       viewport::get().clear();
-      viewport::get().draw_blinky();
       viewport::get().draw_border();
+      viewport::get().draw_messages();
+      viewport::get().draw_blinky();
 
       viewport::get().refresh();
     }
 
     next_tick();
+
   }
   return;
 }
@@ -50,13 +54,21 @@ void engine::next_tick() {
     }
   }
 
-  t_frame::get().incr_t();
+  if(t_frame::get().incr_t()) {
+    m_handler::get().update();
+     if((int)(t_frame::get().get_t()) % 12 == 0) {
+      //make a message of 8 ticks and have viewport show it
+      
+m_handler::get().add_msg(("hell" + std::to_string(t_frame::get().get_t())), 8);
+    } 
+  }
 }
 
 void engine::init() {
-  //init viewport
+  //init singletons
   viewport::get();
   t_frame::get();
+  m_handler::get();
 
   t_frame::get().set_f_delay(20);
   t_frame::get().set_t_delay(125);
