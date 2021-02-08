@@ -59,7 +59,7 @@ void engine::next_tick() {
      if((int)(t_frame::get().get_t()) % 12 == 0) {
       //make a message of 8 ticks and have viewport show it
       
-m_handler::get().add_msg(("hell" + std::to_string(t_frame::get().get_t())), 8);
+m_handler::get().add_msg("hell AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 9);
     } 
   }
 }

@@ -43,7 +43,7 @@ void viewport::draw_messages() const {
     m_handler::get().get_messages(box_x_size, box_y_size);
   
   for(int i=0; (size_t)i<returned_msgs.size(); i++) {
-    mvwprintw(win, box_y_size + i, box_x_size, "hello, world!");
+    mvwprintw(win, box_y_size + i, box_x_size, returned_msgs[i].c_str());
   }
 }
 
