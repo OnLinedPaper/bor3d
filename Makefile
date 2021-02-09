@@ -48,3 +48,12 @@ debug: $(DOBJS) main_driver.cpp
 clean:
 	@$(RM) -r *.o *.gch run $(BDIR)/* $(XDIR)/*
 
+mem:
+	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=$(DDIR)/.v.out $(DDIR)/debug && \
+	cat $(DDIR)/.v.out | awk '/HEAP SUMMARY/{p=1}p' > $(DDIR)/.v2.out && \
+	sed 's/==.*== //' $(DDIR)/".v2.out" > $(DDIR)/"full-valgrind-out.txt" && \
+	cat $(DDIR)/full-valgrind-out.txt > $(DDIR)/valgrind-out.txt && \
+	perl -i -ne 'BEGIN{$$/=""} print unless (/SDL_.*Init/ or /X11_ShowCursor/ or  /dlopen\@\@GLIBC_2.2.5/ or /XSetLocaleModifiers/ or /_dl_catch_exception/ or /_XlcCurrentLC/ or /libpulsecommon/ or /SDL_CreateWindow_REAL/ or /lib\/x86_64-linux-gnu\/dri\/i965_dri.so/ or /TTF_Init/ or /_dl_init/ or /_dbus_strdup/ or /vgpreload/)' $(DDIR)/valgrind-out.txt;
+	@rm $(DDIR)/.v.out $(DDIR)/.v2.out; less $(DDIR)/valgrind-out.txt;
+
+
