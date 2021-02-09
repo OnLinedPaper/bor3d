@@ -13,6 +13,10 @@ void m_handler::add_msg(std::string msg, int life) {
   message_queue.push_back( {msg, life} );
 }
 
+void m_handler::add_msg(char msg, int life) {
+  add_msg(std::string (1, msg), life);
+}
+
 std::vector<std::string> m_handler::get_messages(int slice, size_t lines){
   //remember! newest messages FIRST! start at the back of the vector!
   std::vector<std::string> retvec;

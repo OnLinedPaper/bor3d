@@ -34,16 +34,23 @@ void viewport::draw_messages() const {
   uint8_t b_width = BOX_WIDTH + 1;
   uint8_t b_height = BOX_HEIGHT + 1;
 
-  //the +1 and the +2 are so we don't step on the borders of the
-  //textbox and window during resizing events
-  int box_x_size = (COLS > b_width + 1 ? COLS - b_width : 2);
-  int box_y_size = (LINES > b_height + 1 ? LINES - b_height : 2);
+  uint8_t ONE_BORDER = 1;
+  uint8_t TWO_BORDER = 2;
+  uint8_t THREE_BORDER = 3;
+
+  //offset is where we start printing
+  int box_x_offset = (COLS > b_width + ONE_BORDER ? COLS - b_width : TWO_BORDER);
+  int box_y_offset = (LINES > b_height + ONE_BORDER ? LINES - b_height : TWO_BORDER);
+
+  //size is how much we print
+  int box_x_size = (COLS > b_width ? b_width - ONE_BORDER : COLS - THREE_BORDER);
+  int box_y_size = (LINES > b_height ? b_height - ONE_BORDER : LINES - THREE_BORDER);
 
   std::vector<std::string> returned_msgs = 
     m_handler::get().get_messages(box_x_size, box_y_size);
   
   for(int i=0; (size_t)i<returned_msgs.size(); i++) {
-    mvwprintw(win, box_y_size + i, box_x_size, returned_msgs[i].c_str());
+    mvwprintw(win, box_y_offset + i, box_x_offset, returned_msgs[i].c_str());
   }
 }
 

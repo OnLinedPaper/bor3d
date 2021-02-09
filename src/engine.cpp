@@ -15,13 +15,23 @@ void engine::run() {
   //run a constant loop here:
   //check for input, then draw
 
-  //int ch;
+  int ch;
   bool quit = false;
 
   while(!quit) {
 
-    //ch = getch();
-  
+    ch = getch();
+    //check for ESC
+    if(ch == 27) { quit = true; }
+
+    if(ch != ERR) {
+      std::string s;
+      s += std::to_string(ch);
+      s += " ";
+      s += (char)ch;
+      m_handler::get().add_msg(s, 1);
+    }  
+
     if(t_frame::get().incr_f()) {
       viewport::get().clear();
       viewport::get().draw_border();

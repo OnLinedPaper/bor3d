@@ -16,6 +16,7 @@ public:
   }
 
   void add_msg(std::string msg, int life);
+  void add_msg(char msg, int life);
 
   //get mesages for printing - slice them automatically, and only return as
   //many as there are lines to print, i.e. if there's lots of messages
