@@ -1,6 +1,9 @@
 #ifndef ENVIRONMENT_H_
 #define ENVIRONMENT_H_
 
+#include <vector>
+#include "src/object/object.h"
+
 //handles the "world" within which 3d objects can be placed
 class environment {
 
@@ -8,11 +11,11 @@ public:
   ~environment();
 
   static environment &get() {
-    static environemnt instance;
+    static environment instance;
     return instance;
   }
 
-  void add_obj(obj_3d &o);
+  void add_obj(obj_3d *o);
 
 private:
   environment();

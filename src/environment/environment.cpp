@@ -1,5 +1,5 @@
 #include "environment.h"
-#include "/src/object/object.h"
+#include "src/object/object.h"
 
 //configure these at 100, 100 until i decide to add xml parsing
 environment::environment() :
@@ -9,6 +9,6 @@ environment::environment() :
 
 environment::~environment() { }
 
-environment::add_obs(obj_3d &o) {
+void environment::add_obj(obj_3d *o) {
   objs.push_back(o);
 }
