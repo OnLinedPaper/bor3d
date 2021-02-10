@@ -24,6 +24,7 @@ private:
 
   double x_size;
   double y_size;
+  double z_size;
 
   std::vector<obj_3d *> objs;
 };

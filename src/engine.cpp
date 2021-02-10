@@ -3,6 +3,7 @@
 #include "timeframe/timeframe.h"
 #include "message/message.h"
 #include "message/message_handler.h"
+#include "object/box.h"
 
 #include <ncurses.h>
 #include <unistd.h>
@@ -17,6 +18,7 @@ void engine::run() {
 
   int ch;
   bool quit = false;
+  box_3d b(0, 0, 0, 1, 1, 1);
 
   while(!quit) {
 

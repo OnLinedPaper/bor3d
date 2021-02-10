@@ -9,15 +9,15 @@ XDIR = bin
 DDIR = debugging
 DBDIR = build/dbuild
 
-DEPS = engine.h viewport.h timeframe.h message.h message_handler.h environment.h object.h
+DEPS = engine.h viewport.h timeframe.h message.h message_handler.h environment.h object.h vec3d.h box.h
 
-OBJS:= engine.o viewport.o timeframe.o message.o message_handler.o environment.o object.o
+OBJS:= engine.o viewport.o timeframe.o message.o message_handler.o environment.o object.o vec3d.o box.o
 DOBJS:= $(addprefix $(DBDIR)/,$(OBJS))
 OBJS:= $(addprefix $(BDIR)/,$(OBJS))
 
-SRCS = engine.cpp viewport.cpp timeframe.cpp message.cpp message_handler.cpp environment.cpp object.cpp
+SRCS = engine.cpp viewport.cpp timeframe.cpp message.cpp message_handler.cpp environment.cpp object.cpp vec3d.cpp box.cpp
 
-PATHS = . rec2d viewport timeframe vec2d message environment object
+PATHS = . rec2d viewport timeframe vec2d message environment object vec3d
 VPATH = $(addprefix src/,$(PATHS))
 
 $(BDIR)/%.o: %.cpp %.h
