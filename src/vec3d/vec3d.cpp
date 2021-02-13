@@ -31,6 +31,10 @@ float vec3d::operator [](int i) const {
   }
 }
 
+vec3d vec3d::operator+=(const vec3d &v) const {
+  return vec3d(x + v[0], y + v[1], z + v[2]);
+}
+
 float vec3d::magnitude() const {
   return sqrt((x * x) + (y * y) + (z * z));
 }

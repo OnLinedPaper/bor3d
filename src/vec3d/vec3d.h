@@ -22,6 +22,10 @@ public:
   float &operator[](int i);
   float operator [](int i) const;
 
+
+  //modify vector with other vector
+  vec3d operator+=(const vec3d&) const;
+
   float magnitude() const;
   float magnitudeSquared() const;
   vec3d normalize() const; //does not normalize beyond .001, returns this instead

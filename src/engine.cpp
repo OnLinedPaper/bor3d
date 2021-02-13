@@ -1,9 +1,10 @@
-#include "engine.h"
-#include "viewport/viewport.h"
-#include "timeframe/timeframe.h"
-#include "message/message.h"
-#include "message/message_handler.h"
-#include "object/box.h"
+#include "src/engine.h"
+#include "src/viewport/viewport.h"
+#include "src/timeframe/timeframe.h"
+#include "src/message/message.h"
+#include "src/message/message_handler.h"
+#include "src/object/box.h"
+#include "src/camera/camera.h"
 
 #include <ncurses.h>
 #include <unistd.h>
@@ -19,6 +20,7 @@ void engine::run() {
   int ch;
   bool quit = false;
   box_3d b(0, 0, 0, 1, 1, 1);
+  camera c(50, 50, 50);
 
   while(!quit) {
 
