@@ -21,7 +21,7 @@ public:
 
   //take a look through a viewport of specified width and height,
   //then fill a char array of what was seen
-  void take_snapshot(int, int, char ***) const;
+  void take_snapshot(int, int, char **) const;
 
   vec3d get_pos() const { return position; }
   vec3d get_angle() const { return angle; }

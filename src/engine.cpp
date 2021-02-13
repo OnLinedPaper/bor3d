@@ -38,6 +38,7 @@ void engine::run() {
 
     if(t_frame::get().incr_f()) {
       viewport::get().clear();
+      viewport::get().draw_snapshot(c);
       viewport::get().draw_border();
       viewport::get().draw_messages();
       viewport::get().draw_blinky();

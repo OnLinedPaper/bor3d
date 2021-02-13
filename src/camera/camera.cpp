@@ -61,6 +61,13 @@ void camera::look_absolute(float pitch, float yaw, float roll) {
 //(this occupies an array of width+1 * height+1.)
 //if all corners agree on what they hit, it's a solid collision with an object.
 //if they don't agree, it's a boundary of some sort.
-void camera::take_snapshot(int width, int height, char ***retval) const {
-  **retval = 0;
+void camera::take_snapshot(int lines, int cols, char **retval) const {
+  //set array to empty space
+  for(int i=0; i<lines; i++) {
+    for(int j=0; j<cols; j++) {
+      (*retval)[i*sizeof(char)+j] = '?';
+    }
+  }
+  //TODO: raytrace here
+  return;
 }

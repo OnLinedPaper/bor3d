@@ -27,6 +27,34 @@ viewport::~viewport() {
   endwin();
 }
 
+void viewport::draw_snapshot(const camera &c) {
+  //make some memory - this needs to be resized
+  //any time the window changes
+  static uint8_t last_lines = -1;
+  static uint8_t last_cols = -1;
+  static char *draw_vals = NULL;
+
+  if(LINES != last_lines || COLS != last_cols) {
+    free(draw_vals);
+    draw_vals = (char *)malloc(sizeof(char) * LINES * COLS);
+    if(draw_vals == NULL) { 
+      std::cerr << "malloc failed! S-H-I-T!" << std::endl;
+      exit(1); 
+    }
+    last_lines = LINES;
+    last_cols = COLS;
+  }
+
+  //fill with data
+  c.take_snapshot(LINES, COLS, &draw_vals);
+  
+  for(int i=0; i<LINES; i++) {
+    for(int j=0; j<COLS; j++) {
+      mvwaddch(win, i, j, draw_vals[i*sizeof(char)+j]);
+    }
+  }
+}
+
 //draw the messages in the message queue
 void viewport::draw_messages() const {
 
@@ -49,6 +77,12 @@ void viewport::draw_messages() const {
   std::vector<std::string> returned_msgs = 
     m_handler::get().get_messages(box_x_size, box_y_size);
   
+  for(int i=box_y_offset; i<LINES - ONE_BORDER; i++) {
+    for(int j=box_x_offset; j<COLS - ONE_BORDER; j++) {
+      mvwaddch(win, i, j, ' ');
+    }
+  }
+
   for(int i=0; (size_t)i<returned_msgs.size(); i++) {
     mvwprintw(win, box_y_offset + i, box_x_offset, returned_msgs[i].c_str());
   }

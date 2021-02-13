@@ -3,6 +3,7 @@
 
 #include <ncurses.h>
 #include <string>
+#include "src/camera/camera.h"
 
 //this singleton class will handle drawing to the screen
 
@@ -16,6 +17,7 @@ public:
     return instance;
   }
 
+  void draw_snapshot(const camera &);
   void draw_messages() const;
 
   WINDOW *get_win() { return win; }
