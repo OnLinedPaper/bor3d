@@ -16,6 +16,7 @@ public:
   }
 
   void add_obj(obj_3d *o);
+  char trace_ray(const vec3d pos, const vec3d angle) const;
 
 private:
   environment();

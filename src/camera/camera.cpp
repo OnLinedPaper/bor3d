@@ -68,6 +68,12 @@ void camera::take_snapshot(int lines, int cols, char **retval) const {
       (*retval)[i*sizeof(char)+j] = '?';
     }
   }
+
   //TODO: raytrace here
+  //given FOV, width, and height, we can determine focal length
+  //however... we need to first convert screen pixels to world units
+  //frankie's fullscreen terminal rests at about 200 cols, and the world is 100 units wide
+  //probably going to set it at 1:10 for the world:view units but ic an adjust this as i see fit
+
   return;
 }
