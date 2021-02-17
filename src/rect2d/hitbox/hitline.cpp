@@ -1,6 +1,6 @@
 #include "hitline.h"
 #include <math.h>
-#include "src/renders/render.h"
+//#include "src/renders/render.h"
 #include "src/viewport/viewport.h"
 #include "src/rect2d/rect2d.h"
 
@@ -34,9 +34,13 @@ bool hitline::collides(const hitline &l) const {
   float denominator = r.cross(s);
 
   if(numerator == 0 && denominator == 0) {
+    /*
     //colinear - cnvert to box and check for collision
     rect2d r1(start[0], start[1], end[0] - start[0], end[1] - start[1]); 
     return(r1.overlap(l));
+    */
+    //TODO: cleanup - for purposes of this program, colienar lines are NOT colliding
+    return false;
   }
   else if(denominator == 0) {
     return false;
@@ -47,7 +51,7 @@ bool hitline::collides(const hitline &l) const {
 
   return (t >= 0 && t <= 1 && u >= 0 && u <= 1); 
 }
-
+/*
 void hitline::draw() const {
 
     //save color
@@ -66,4 +70,4 @@ void hitline::draw() const {
 
     //restore color
     SDL_SetRenderDrawColor(render::get().get_r(), c.r, c.g, c.b, c.a);
-}
+}*/

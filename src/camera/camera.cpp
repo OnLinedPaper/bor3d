@@ -1,4 +1,5 @@
 #include "camera.h"
+#include "src/environment/environment.h"
 
 camera::camera() :
   position({0, 0, 0}),
@@ -74,6 +75,10 @@ void camera::take_snapshot(int lines, int cols, char **retval) const {
   //however... we need to first convert screen pixels to world units
   //frankie's fullscreen terminal rests at about 200 cols, and the world is 100 units wide
   //probably going to set it at 1:10 for the world:view units but ic an adjust this as i see fit
+
+  //to start, take 1 snapshot, dead ahead, at 0 focal length and 100 total length
+  (*retval)[1 * sizeof(char) + 1] = environment::get()
+      .trace_ray(position, {position[0], position[1], position[2] + 50});
 
   return;
 }

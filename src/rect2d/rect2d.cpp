@@ -1,14 +1,16 @@
 #include "rect2d.h"
 #include "src/vec2d/vec2d.h"
-#include "src/renders/render.h"
+//#include "src/renders/render.h"
 #include "src/viewport/viewport.h"
 
+/*
 void rect2d::draw() const {
   coord_draw(
     (tlc[0] - viewport::get().get_tlc_x()),
     (tlc[1] - viewport::get().get_tlc_y())
   );
 }
+
 
 void rect2d::tlc_draw() const {
   coord_draw(
@@ -56,6 +58,7 @@ void rect2d::draw(int red, int green, int blue) const {
   SDL_SetRenderDrawColor(render::get().get_r(), red, green, blue, 255);
   SDL_RenderDrawRect(render::get().get_r(), &r);
 }
+*/
 
 bool rect2d::overlap(const hitline &l) const {
 

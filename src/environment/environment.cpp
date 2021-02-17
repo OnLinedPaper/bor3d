@@ -1,6 +1,7 @@
 #include "environment.h"
 #include "src/object/object.h"
 #include "src/object/box.h"
+#include "src/message/message_handler.h"
 
 /*
   0 y 0
@@ -49,4 +50,15 @@ environment::~environment() { }
 
 void environment::add_obj(obj_3d *o) {
   objs.push_back(o);
+}
+
+char environment::trace_ray(const vec3d start, const vec3d end) const {
+  for(obj_3d *o : objs) {
+    if(o && o->collides(start, end)) {
+      m_handler::get().add_msg("hit a collision", 1);
+      return '!';
+    }
+  }
+  m_handler::get().add_msg("did not collide", 1);
+  return '.';
 }
