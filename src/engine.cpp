@@ -46,9 +46,9 @@ void engine::run() {
 
       switch(ch) {
         case 'w':
-          c.move_relative(0, 1, 0); break;
-        case 's':
           c.move_relative(0, -1, 0); break;
+        case 's':
+          c.move_relative(0, 1, 0); break;
         case 'a':
           c.move_relative(-1, 0, 0); break;
         case 'd':
