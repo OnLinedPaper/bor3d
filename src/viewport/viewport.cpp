@@ -48,9 +48,9 @@ void viewport::draw_snapshot(const camera &c) {
   //fill with data
   c.take_snapshot(LINES, COLS, &draw_vals);
   
-  for(int i=0; i<LINES; i++) {
-    for(int j=0; j<COLS; j++) {
-      mvwaddch(win, i, j, draw_vals[i*sizeof(char)+j]);
+  for(int i=0; i<COLS; i++) {
+    for(int j=0; j<LINES; j++) {
+      mvwaddch(win, j, i, draw_vals[j*sizeof(char)*COLS+i]);
     }
   }
 }

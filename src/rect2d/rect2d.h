@@ -29,6 +29,8 @@ public:
 
   bool overlap(const rect2d &r) const;
   bool overlap(const hitline &l) const;
+  bool contains(const hitline &l) const;
+  bool contains(const vec2d &v) const;
 
   float check_point_side(const vec2d &v, const hitline &l) const;
 

@@ -26,7 +26,10 @@ environment::environment() :
 { 
   //add 6 rectangles for the "boundaries" of the world, i'm allowed to be lazy if i want
   //each projects 1 unit past the boundary to give it volume
-  
+ 
+  //TODO: reenble this after fixing raytracing
+  return;
+ 
   //front, we spawn facing this one
   this->add_obj(new box_3d(0, y_size, z_size, x_size, 0, z_size + 1));
 
@@ -55,10 +58,8 @@ void environment::add_obj(obj_3d *o) {
 char environment::trace_ray(const vec3d start, const vec3d end) const {
   for(obj_3d *o : objs) {
     if(o && o->collides(start, end)) {
-      m_handler::get().add_msg("hit a collision", 1);
-      return '!';
+      return 'o';
     }
   }
-  m_handler::get().add_msg("did not collide", 1);
   return '.';
 }

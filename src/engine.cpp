@@ -21,11 +21,17 @@ void engine::run() {
   int ch;
   bool quit = false;
   //TODO: add this to all objects once we can see the boundary
-  box_3d *b = new box_3d(25, 25, 25, 30, 30, 30);
+  box_3d *b = new box_3d(45, 45, 45, 55, 55, 55);
   environment::get().add_obj(b);
   camera c(50, 50, 15);
 
   while(!quit) {
+
+    std::string campos;
+    campos.append(std::to_string(c.get_pos()[0]) + ", ");
+    campos.append(std::to_string(c.get_pos()[1]) + ", ");
+    campos.append(std::to_string(c.get_pos()[2]));
+    m_handler::get().add_msg(campos, 1);
 
     ch = getch();
     //check for ESC
@@ -37,6 +43,23 @@ void engine::run() {
       s += " ";
       s += (char)ch;
       m_handler::get().add_msg(s, 1);
+
+      switch(ch) {
+        case 'w':
+          c.move_relative(0, 1, 0); break;
+        case 's':
+          c.move_relative(0, -1, 0); break;
+        case 'a':
+          c.move_relative(-1, 0, 0); break;
+        case 'd':
+          c.move_relative(1, 0, 0); break;
+        case 'q':
+          c.move_relative(0, 0, -1); break;
+        case 'e':
+          c.move_relative(0, 0, 1); break;
+        default:
+          break;
+      }
     }  
 
     if(t_frame::get().incr_f()) {
@@ -92,5 +115,6 @@ engine::engine() {
 }
 
 engine::~engine() {
+  curs_set(1);
   endwin();
 }

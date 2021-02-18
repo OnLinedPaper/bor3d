@@ -34,7 +34,7 @@ void rect2d::coord_draw(float x, float y) const {
 
   //draw rect
   SDL_RenderFillRect(render::get().get_r(), &r);
-  SDL_SetRenderDrawColor(render::get().get_r(), 64, 255, 64, 255);
+  75L_SetRenderDrawColor(render::get().get_r(), 64, 255, 64, 255);
   SDL_RenderDrawRect(render::get().get_r(), &r);
   //restore color
   SDL_SetRenderDrawColor(render::get().get_r(), c.r, c.g, c.b, c.a);
@@ -69,10 +69,25 @@ bool rect2d::overlap(const hitline &l) const {
     l.collides({get_tlc(), trc}) ||
     l.collides({get_tlc(), blc}) ||
     l.collides({get_brc(), trc}) ||
-    l.collides({get_brc(), blc})
+    l.collides({get_brc(), blc}) ||
+    rect2d::contains(l)
   );
 
   return false;
+}
+
+bool rect2d::contains(const hitline &l) const {
+  return(contains(l.get_start()) && contains(l.get_end()));
+}
+
+bool rect2d::contains(const vec2d &v) const {
+  return(
+    get_tlc()[0] < v[0] &&
+    get_tlc()[1] < v[1] &&
+    get_brc()[0] > v[0] &&
+    get_brc()[1] > v[1]
+  );
+
 }
 
 float rect2d::check_point_side(const vec2d &in_point, const hitline &l) const {

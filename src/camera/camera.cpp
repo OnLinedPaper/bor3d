@@ -64,21 +64,38 @@ void camera::look_absolute(float pitch, float yaw, float roll) {
 //if they don't agree, it's a boundary of some sort.
 void camera::take_snapshot(int lines, int cols, char **retval) const {
   //set array to empty space
-  for(int i=0; i<lines; i++) {
-    for(int j=0; j<cols; j++) {
-      (*retval)[i*sizeof(char)+j] = '?';
+  for(int j=0; j<lines; j++) {
+    for(int i=0; i<cols; i++) {
+      (*retval)[j * sizeof(char) * cols + i] = '?';
     }
   }
 
   //TODO: raytrace here
   //given FOV, width, and height, we can determine focal length
   //however... we need to first convert screen pixels to world units
-  //frankie's fullscreen terminal rests at about 200 cols, and the world is 100 units wide
+  //frankie's fullscreen terminal rests at about 200 cols to 50 lines, and the world is 100 units wide
   //probably going to set it at 1:10 for the world:view units but ic an adjust this as i see fit
+  //also need to set it to a 4:1 ratio (about) for the width and height
 
-  //to start, take 1 snapshot, dead ahead, at 0 focal length and 100 total length
-  (*retval)[1 * sizeof(char) + 1] = environment::get()
-      .trace_ray(position, {position[0], position[1], position[2] + 50});
+  //TODO: these "mixels" are taller than they are wide oops
+  //don't account for fisheye of any sort yet - just snap a grid and adjust 
+  float unit_convert = .2;
+  for(int j=0; j<lines; j++) {
+    for(int i=0; i<cols; i++) {
+      (*retval)[j * sizeof(char) * cols + i] = environment::get()
+          .trace_ray(
+          {
+              position[0] /*+ (i - cols/2) * unit_convert*/, 
+              position[1] /*+ (j - lines/2) * unit_convert * 2*/, 
+              position[2]
+          }, 
+          {
+              position[0] + (i - cols/2) * unit_convert, 
+              position[1] + (j - lines/2) * unit_convert * 2, 
+              position[2] + 50
+          });
+    }
+  }
 
   return;
 }
