@@ -85,8 +85,8 @@ void camera::take_snapshot(int lines, int cols, char **retval) const {
       (*retval)[j * sizeof(char) * cols + i] = environment::get()
           .trace_ray(
           {
-              position[0] /*+ (i - cols/2) * unit_convert*/, 
-              position[1] /*+ (j - lines/2) * unit_convert * 2*/, 
+              position[0], 
+              position[1], 
               position[2]
           }, 
           {

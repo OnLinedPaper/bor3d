@@ -22,6 +22,8 @@ public:
   float &operator[](int i);
   float operator [](int i) const;
 
+  //modify vector in a scalar way
+  vec3d operator*=(float) const;
 
   //modify vector with other vector
   vec3d operator+=(const vec3d&) const;
