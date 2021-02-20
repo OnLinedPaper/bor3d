@@ -57,7 +57,7 @@ void environment::add_obj(obj_3d *o) {
 char environment::trace_ray(const vec3d start, const vec3d end) const {
   for(obj_3d *o : objs) {
     if(o && o->collides(start, end)) {
-      return 'o';
+      return '+';
     }
   }
   return '\0';

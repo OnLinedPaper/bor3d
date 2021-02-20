@@ -1,4 +1,5 @@
 #include <cmath>
+#include <random>
 #include <cstdint>
 #include <iostream>
 
@@ -84,18 +85,6 @@ void camera::take_snapshot(int lines, int cols, char **retval) const {
   }
 
 /*
-  static std::random_device r;
-  static std::default_random_engine re(r());
-  static std::uniform_int_distribution<int> uniform_dist(1, 4);
-
-   switch (uniform_dist(re)) {
-     case 1: return '.';
-     case 2: return ',';
-     case 3: return '\'';
-     case 4: return '`';
-     default: return '?';
-  }
-
 */  
 
   //set array to empty space
@@ -117,18 +106,14 @@ void camera::take_snapshot(int lines, int cols, char **retval) const {
   float unit_convert = .2;
   for(int j=0; j<lines+1; j++) {
     for(int i=0; i<cols+1; i++) {
-      (trace_vals)[j * sizeof(char) * (cols+1) + i] = environment::get()
-          .trace_ray(
-          {
-              position[0], 
-              position[1], 
-              position[2]
-          }, 
-          {
+      vec3d end_vec = {
               position[0] + (i - (cols+1)/2) * unit_convert, 
               position[1] + (j - (lines+1)/2) * unit_convert * 2, 
               position[2] + 50
-          });
+      };
+
+      (trace_vals)[j * sizeof(char) * (cols+1) + i] = environment::get()
+          .trace_ray(position, end_vec);
     }
   }
 
@@ -142,8 +127,32 @@ void camera::take_snapshot(int lines, int cols, char **retval) const {
         (trace_vals)[trace_index] == (trace_vals)[trace_index + 1] && 
         (trace_vals)[trace_index] == (trace_vals)[trace_index + cols + 1] &&
         (trace_vals)[trace_index] == (trace_vals)[trace_index + 1 + cols + 1] 
-      ) { (*retval)[ret_index] = (trace_vals)[trace_index]; }
-      else { (*retval)[ret_index] = 'x'; }
+      ) {
+        if((trace_vals)[trace_index] == '\0') {
+          //add some pretty static 
+
+          char retchar = ' ';
+          static std::random_device r;
+          static std::default_random_engine re(r());
+          static std::uniform_int_distribution<int> uniform_dist(1, 4);
+
+          switch (uniform_dist(re)) {
+            case 1: retchar = '.'; break;
+            case 2: retchar = ','; break;
+            case 3: retchar = '\''; break;
+            case 4: retchar = '`'; break;
+            default: retchar = '?'; break;
+          }
+
+          (*retval)[ret_index] = retchar; 
+        }
+        else { 
+          (*retval)[ret_index] = (trace_vals)[trace_index]; 
+        }
+      }
+      else { 
+        (*retval)[ret_index] = 'O'; 
+      }
     }
   }
 
@@ -159,5 +168,5 @@ vec3d camera::get_end_vec(float ray_len) const {
   //that is to say: no angle correlates to a vector of 0,0,1
   //TODO: ignoring roll (z) for now, will add that in later
 
-  return {0, 0, 0};
+  return {0, 0, ray_len};
 }
