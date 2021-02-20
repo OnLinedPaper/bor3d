@@ -55,20 +55,11 @@ void environment::add_obj(obj_3d *o) {
 }
 
 char environment::trace_ray(const vec3d start, const vec3d end) const {
-  static std::random_device r;
-  static std::default_random_engine re(r());
-  static std::uniform_int_distribution<int> uniform_dist(1, 4);
-
   for(obj_3d *o : objs) {
     if(o && o->collides(start, end)) {
       return 'o';
     }
   }
-  switch (uniform_dist(re)) {
-    case 1: return '.';
-    case 2: return ',';
-    case 3: return '\'';
-    case 4: return '`';
-    default: return '?';
-  }
+  return '\0';
+
 }

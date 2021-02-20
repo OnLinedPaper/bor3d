@@ -1,4 +1,6 @@
 #include <cmath>
+#include <cstdint>
+#include <iostream>
 
 #include "camera.h"
 #include "src/environment/environment.h"
@@ -65,6 +67,37 @@ void camera::look_absolute(float pitch, float yaw, float roll) {
 //if all corners agree on what they hit, it's a solid collision with an object.
 //if they don't agree, it's a boundary of some sort.
 void camera::take_snapshot(int lines, int cols, char **retval) const {
+  //this will hold raytrace data for the 4 corners
+  static uint8_t last_lines = -1;
+  static uint8_t last_cols = -1;
+  static char *trace_vals = NULL;
+
+  if(lines != last_lines || cols != last_cols) {
+    free(trace_vals);
+    trace_vals = (char *)malloc(sizeof(char) * (lines+1) * (cols+1));
+    if(trace_vals == NULL) {
+      std::cerr << "malloc failed! S-H-I-T!" <<std::endl;
+      exit(1);
+    }
+    last_lines = lines;
+    last_cols = cols;
+  }
+
+/*
+  static std::random_device r;
+  static std::default_random_engine re(r());
+  static std::uniform_int_distribution<int> uniform_dist(1, 4);
+
+   switch (uniform_dist(re)) {
+     case 1: return '.';
+     case 2: return ',';
+     case 3: return '\'';
+     case 4: return '`';
+     default: return '?';
+  }
+
+*/  
+
   //set array to empty space
   for(int j=0; j<lines; j++) {
     for(int i=0; i<cols; i++) {
@@ -82,9 +115,9 @@ void camera::take_snapshot(int lines, int cols, char **retval) const {
   //TODO: these "mixels" are taller than they are wide oops
   //don't account for fisheye of any sort yet - just snap a grid and adjust 
   float unit_convert = .2;
-  for(int j=0; j<lines; j++) {
-    for(int i=0; i<cols; i++) {
-      (*retval)[j * sizeof(char) * cols + i] = environment::get()
+  for(int j=0; j<lines+1; j++) {
+    for(int i=0; i<cols+1; i++) {
+      (trace_vals)[j * sizeof(char) * (cols+1) + i] = environment::get()
           .trace_ray(
           {
               position[0], 
@@ -92,10 +125,25 @@ void camera::take_snapshot(int lines, int cols, char **retval) const {
               position[2]
           }, 
           {
-              position[0] + (i - cols/2) * unit_convert, 
-              position[1] + (j - lines/2) * unit_convert * 2, 
+              position[0] + (i - (cols+1)/2) * unit_convert, 
+              position[1] + (j - (lines+1)/2) * unit_convert * 2, 
               position[2] + 50
           });
+    }
+  }
+
+  //take data in trace_vals and compare it to get retval's data
+  for(int j=0; j<lines; j++) {
+    for(int i=0; i<cols; i++) {
+      int ret_index = j * sizeof(char) * cols + i;
+      int trace_index = ret_index + j;
+
+      if(
+        (trace_vals)[trace_index] == (trace_vals)[trace_index + 1] && 
+        (trace_vals)[trace_index] == (trace_vals)[trace_index + cols + 1] &&
+        (trace_vals)[trace_index] == (trace_vals)[trace_index + 1 + cols + 1] 
+      ) { (*retval)[ret_index] = (trace_vals)[trace_index]; }
+      else { (*retval)[ret_index] = 'x'; }
     }
   }
 
