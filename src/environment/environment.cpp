@@ -48,7 +48,11 @@ environment::environment() :
   this->add_obj(new box_3d(0, 0, z_size, x_size, -1, 0));
 }
 
-environment::~environment() { }
+environment::~environment() { 
+  for(std::vector<obj_3d *>::iterator it = objs.begin(); it != objs.end(); it++) {
+    delete *it;
+  }
+}
 
 void environment::add_obj(obj_3d *o) {
   objs.push_back(o);
