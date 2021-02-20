@@ -33,6 +33,8 @@ private:
   vec3d position;
   vec3d angle;
 
+  vec3d get_end_vec(float ray_len) const;
+
   float fov;
 };
 

@@ -3,6 +3,21 @@
 //#include "src/renders/render.h"
 #include "src/viewport/viewport.h"
 
+rect2d::rect2d(float x, float y, float w, float h) :
+   tlc({x, y}),
+   dims({w, h}) 
+{ 
+  //check to make sure the dims aren't negative
+  if(dims[0] < 0) {
+    tlc[0] += dims[0];
+    dims[0] *= -1;
+  }
+  if(dims[1] < 0) {
+    tlc[1] += dims[1];
+    dims[1] *= -1;
+  }
+}
+
 /*
 void rect2d::draw() const {
   coord_draw(

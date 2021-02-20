@@ -21,7 +21,7 @@ void engine::run() {
   int ch;
   bool quit = false;
   //TODO: add this to all objects once we can see the boundary
-  box_3d *b = new box_3d(45, 45, 45, 55, 55, 55);
+  box_3d *b = new box_3d(45, 45, 45, 46, 55, 55);
   environment::get().add_obj(b);
   camera c(50, 50, 15);
 

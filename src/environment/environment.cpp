@@ -1,3 +1,5 @@
+#include <random>
+
 #include "environment.h"
 #include "src/object/object.h"
 #include "src/object/box.h"
@@ -27,9 +29,6 @@ environment::environment() :
   //add 6 rectangles for the "boundaries" of the world, i'm allowed to be lazy if i want
   //each projects 1 unit past the boundary to give it volume
  
-  //TODO: reenble this after fixing raytracing
-  return;
- 
   //front, we spawn facing this one
   this->add_obj(new box_3d(0, y_size, z_size, x_size, 0, z_size + 1));
 
@@ -56,10 +55,20 @@ void environment::add_obj(obj_3d *o) {
 }
 
 char environment::trace_ray(const vec3d start, const vec3d end) const {
+  static std::random_device r;
+  static std::default_random_engine re(r());
+  static std::uniform_int_distribution<int> uniform_dist(1, 4);
+
   for(obj_3d *o : objs) {
     if(o && o->collides(start, end)) {
       return 'o';
     }
   }
-  return '.';
+  switch (uniform_dist(re)) {
+    case 1: return '.';
+    case 2: return ',';
+    case 3: return '\'';
+    case 4: return '`';
+    default: return '?';
+  }
 }

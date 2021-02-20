@@ -6,7 +6,7 @@
 
 class rect2d {
 public:
-  rect2d(float x, float y, float w, float h) : tlc(x, y), dims(w, h) { }
+  rect2d(float x, float y, float w, float h);
   rect2d(const rect2d &r) {
     tlc[0] = r.tlc[0];
     tlc[1] = r.tlc[1];

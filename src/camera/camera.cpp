@@ -1,3 +1,5 @@
+#include <cmath>
+
 #include "camera.h"
 #include "src/environment/environment.h"
 
@@ -98,4 +100,16 @@ void camera::take_snapshot(int lines, int cols, char **retval) const {
   }
 
   return;
+}
+
+vec3d camera::get_end_vec(float ray_len) const {
+  //use the angle vec to compute a normalized vector via atan
+  //take that vector and multiply it by the length to get an endpoint
+  //add that to the position vector to get the endpoint
+
+  //a value of 0,0,0 in the angle vector means we're looking straight ahead
+  //that is to say: no angle correlates to a vector of 0,0,1
+  //TODO: ignoring roll (z) for now, will add that in later
+
+  return {0, 0, 0};
 }
